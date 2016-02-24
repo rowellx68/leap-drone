@@ -1,0 +1,25 @@
+{
+  "name": "cylonleap",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Cylon + Leap Motion",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:nm": "nodemon index.js"
+  },
+  "keywords": [
+    "leap",
+    "motion",
+    "cylon",
+    "gesture"
+  ],
+  "author": "Rowell Heria",
+  "constributors": [ "Elizabeth Athanasiadi", "Kyle Bingham", "Daniel Haswell" ],
+  "license": "MIT",
+  "dependencies": {
+    "cylon": "^1.2.0",
+    "cylon-leapmotion": "^0.20.0",
+    "underscore": "^1.8.3"
+  }
+}
