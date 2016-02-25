@@ -65,15 +65,13 @@ Cylon.robot()
             }
           }
         }
-
-        if (_.isEqual(type, KEY_TAP) || _.isEqual(type, SCREEN_TAP)) {
-          console.log('hovering');
-        }
       });
 
       bot.leapmotion.on('hand', (hand) => {
         if (handOpened(hand.pointables)) {
-          
+
+        } else {
+          // if the leap motion doesn't detect 4+ finger it should hover
         }
       });
     });
