@@ -32,6 +32,10 @@ let countFingers = (pointables) => {
   return openFingers;
 };
 
+let handOpened = (pointables) => {
+  return (countFingers(pointables) >= MIN_FINGERS);
+};
+
 Cylon.robot()
     .connection(LEAP_MOTION, { adaptor: LEAP_MOTION })
     .device(LEAP_MOTION, { driver: LEAP_MOTION })
@@ -67,15 +71,11 @@ Cylon.robot()
         }
       });
 
-      //bot.leapmotion.on('hand', (hand) => {
-      //  let handOpened = (countFingers(hand.pointables) >= 4); // need to have at least 4 fingers
-      //
-      //  if (handOpened) {
-      //    console.log('hand open');
-      //  } else {
-      //    console.log('hand closed');
-      //  }
-      //});
+      bot.leapmotion.on('hand', (hand) => {
+        if (handOpened(hand.pointables)) {
+          
+        }
+      });
     });
 
 Cylon.start();
