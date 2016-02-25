@@ -24,3 +24,13 @@ When contributing, commits **MUST** start with these emojis.
 - `:bug:` - :bug: - Bug fixes.
 - `:memo:` - :memo: - Documentation addition/changes.
 - `:fire:` - :fire: - When removing code/files.
+
+## Development
+
+To begin development, you will need to have `nodemon` installed. You can then type the script below.
+
+```
+npm run start:nm
+```
+
+`nodemon` should automatically restart the application when it detects any changes to the files.
