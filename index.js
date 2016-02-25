@@ -4,8 +4,8 @@ const Cylon = require('cylon');
 const _ = require('underscore');
 
 const LEAP_MOTION = 'leapmotion';
-const MIN_RADIUS = 50.0;
-const MIN_FINGERS = 4;
+const MIN_RADIUS = 40.0;
+const MIN_FINGERS = 5;
 
 // states
 const TAKE_OFF = 'TAKE_OFF';
