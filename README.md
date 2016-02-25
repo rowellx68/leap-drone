@@ -16,3 +16,11 @@ Group project for Programming Things. Using gestures on Leap Motion, we aim to c
 - Kyle Bingham
 - Daniel Haswell
 - Rowell Heria
+
+## Contributing
+
+When contributing, commits **MUST** start with these emojis.
+
+- `:bug:` - :bug: - Bug fixes.
+- `:memo:` - :memo: - Documentation addition/changes.
+- `:fire:` - :fire: - When removing code/files.
