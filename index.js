@@ -68,19 +68,8 @@ let takeOffLanding = (gesture, drone) => {
   }
 };
 
-let handData = (hand, drone) => {
-  if (hand) {
-    if (_.isEqual(lastState, FLYING)) {
-      if (isHandOpened(hand.pointables)) {
-        let palmY = lastPalmY = hand.palmY;
-        let thumbY = hand.thumb.direction[1];
-        let middleY = hand.middleFinger.direction[1];
-        let pinkyY = hand.pinky.direction[1];
-
-        console.log(`ID: ${hand.id} PalmY: ${palmY} ${lastPalmY}`);
-      }
-    }
-  }
+let handData = (frameRef, palmY, thumbY, middleFingerY, pinkyY) => {
+  console.log(`${frameRef} { PALM: ${palmY}, THUMB: ${thumbY}, MIDDLE: ${middleFingerY}, PINKY: ${pinkyY} }`);
 };
 
 Cylon.robot()
@@ -100,8 +89,9 @@ Cylon.robot()
           let lastHand = framePrevious.hands[0];
 
           if (hand && lastHand) {
-            console.log(`PREV: { PALM: ${lastHand.palmPosition[1]}, THUMB: ${lastHand.thumb.tipPosition[1]}, MIDDLE: ${lastHand.middleFinger.tipPosition[1]}, PINKY: ${lastHand.pinky.tipPosition[1]} }`);
-            console.log(`NOW:  { PALM: ${hand.palmPosition[1]}, THUMB: ${hand.thumb.tipPosition[1]}, MIDDLE: ${hand.middleFinger.tipPosition[1]}, PINKY: ${hand.pinky.tipPosition[1]} }\n`);
+            handData('PREV:', lastHand.palmPosition[1], lastHand.thumb.tipPosition[1], lastHand.middleFinger.tipPosition[1], lastHand.pinky.tipPosition[1]);
+            handData('NOW: ', hand.palmPosition[1], hand.thumb.tipPosition[1], hand.middleFinger.tipPosition[1], hand.pinky.tipPosition[1]);
+            console.log(' ');
           }
         }
       });
