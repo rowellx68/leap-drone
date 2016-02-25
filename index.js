@@ -18,6 +18,7 @@ const CIRCLE = 'circle';
 const KEY_TAP = 'keyTap';
 const SCREEN_TAP = 'screenTap';
 
+//
 let lastState = '';
 
 let countFingers = (pointables) => {
@@ -32,7 +33,7 @@ let countFingers = (pointables) => {
   return openFingers;
 };
 
-let handOpened = (pointables) => {
+let isHandOpened = (pointables) => {
   return (countFingers(pointables) >= MIN_FINGERS);
 };
 
@@ -68,10 +69,12 @@ Cylon.robot()
       });
 
       bot.leapmotion.on('hand', (hand) => {
-        if (handOpened(hand.pointables)) {
-
-        } else {
-          // if the leap motion doesn't detect 4+ finger it should hover
+        // we will only start to translate the data if the drone is already flying.
+        if (_.isEqual(lastState, FLYING)) {
+          if (isHandOpened(hand.pointables)) {
+            console.log(`PALM X: ${hand.palmX}, PALM Y: ${hand.palmY}, PALM Z: ${hand.palmZ}`);
+            console.log(`THUMB: ${hand.thumb.direction[1]}, MIDDLE: ${hand.middleFinger.direction[1]}, PINKY: ${hand.pinky.direction[1]}`);
+          }
         }
       });
     });
