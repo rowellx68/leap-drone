@@ -3,6 +3,7 @@
 const Cylon = require('cylon');
 const _ = require('underscore');
 
+const LEAP_MOTION = 'leapmotion';
 const MIN_RADIUS = 50.0;
 const MIN_FINGERS = 4;
 
@@ -32,8 +33,8 @@ let countFingers = (pointables) => {
 };
 
 Cylon.robot()
-    .connection('leapmotion', { adaptor: 'leapmotion' })
-    .device('leapmotion', { driver: 'leapmotion' })
+    .connection(LEAP_MOTION, { adaptor: LEAP_MOTION })
+    .device(LEAP_MOTION, { driver: LEAP_MOTION })
     .on('ready', (bot) => {
       bot.leapmotion.on('gesture', (gesture) => {
         let type = gesture.type;
