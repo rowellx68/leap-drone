@@ -20,6 +20,8 @@ const SCREEN_TAP = 'screenTap';
 
 //
 let lastState = '';
+let framePrevious = {};
+let frameCurrent = {};
 
 let countFingers = (pointables) => {
   let openFingers = 0;
@@ -86,33 +88,23 @@ Cylon.robot()
     .device(LEAP_MOTION, { driver: LEAP_MOTION })
     .on('ready', (bot) => {
       bot.leapmotion.on('frame', (frame) => {
-        let hand = frame.hands[0];
-        let gesture = frame.gestures[0];
+        framePrevious = frame.controller.frame(1);
+        frameCurrent = frame.controller.frame(0);
+
+        let hand = frameCurrent.hands[0];
+        let gesture = frameCurrent.gestures[0];
         
         takeOffLanding(gesture, null);
 
         if (hand && isHandOpened(hand.pointables) && _.isEqual(lastState, FLYING)) {
-          console.log(hand.palmPosition[1]);
+          let lastHand = framePrevious.hands[0];
+
+          if (hand && lastHand) {
+            console.log(`PREV: { PALM: ${lastHand.palmPosition[1]}, THUMB: ${lastHand.thumb.tipPosition[1]}, MIDDLE: ${lastHand.middleFinger.tipPosition[1]}, PINKY: ${lastHand.pinky.tipPosition[1]} }`);
+            console.log(`NOW:  { PALM: ${hand.palmPosition[1]}, THUMB: ${hand.thumb.tipPosition[1]}, MIDDLE: ${hand.middleFinger.tipPosition[1]}, PINKY: ${hand.pinky.tipPosition[1]} }\n`);
+          }
         }
       });
-
-      //bot.leapmotion.on('hand', (hand) => {
-      //  // we will only start to translate the data if the drone is already flying.
-      //  if (_.isEqual(lastState, FLYING)) {
-      //    if (isHandOpened(hand.pointables)) {
-      //      let palmY = lastPalmY = hand.palmY;
-      //      let thumbY = hand.thumb.direction[1];
-      //      let middleY = hand.middleFinger.direction[1];
-      //      let pinkyY = hand.pinky.direction[1];
-      //
-      //      setTimeout(() => {
-      //        palmY = hand.palmY;
-      //      }, 500);
-      //
-      //      console.log(`ID: ${hand.id} PalmY: ${palmY} ${lastPalmY}`);
-      //    }
-      //  }
-      //});
     });
 
 Cylon.start();
