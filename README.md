@@ -34,3 +34,10 @@ npm run start:nm
 ```
 
 `nodemon` should automatically restart the application when it detects any changes to the files.
+
+## How To
+
+- Take Off - gesture circle clockwise
+- Land - gesture circle counter clockwise
+
+Details about gestures can be found [here](https://developer.leapmotion.com/documentation/javascript/devguide/Leap_Gestures.html).
