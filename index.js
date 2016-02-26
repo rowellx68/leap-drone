@@ -6,7 +6,8 @@ const _ = require('underscore');
 const LEAP_MOTION = 'leapmotion';
 const MIN_RADIUS = 40.0;
 const MIN_FINGERS = 5;
-const UP_DOWN_THRESHOLD = 2;
+const UP_DOWN_DIRECTION_THRESHOLD = 2;
+const DIRECTION_THRESHOLD = 3;
 
 // states
 const TAKE_OFF = 'TAKE_OFF';
@@ -105,10 +106,12 @@ Cylon.robot()
           let lastHand = framePrevious.hands[0];
 
           if (hand && lastHand) {
-            let horizontalMovement = getHorizontalMovement(lastHand.direction[0], hand.direction[0]);
             let verticalMovement = getVerticalMovement(lastHand.palmPosition[1], hand.palmPosition[1]);
+            let thumbVerticalMovement = getVerticalMovement(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
+            let middleFingerVerticalMovement = getVerticalMovement(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+            let pinkyVerticalMovement = getVerticalMovement(lastHand.pinky.tipPosition[1], hand.pinky.tipPosition[1]);
 
-            if (verticalMovement >= UP_DOWN_THRESHOLD) {
+            if (verticalMovement >= UP_DOWN_DIRECTION_THRESHOLD) {
               let direction = getDirection(hand.palmPosition[1], lastHand.palmPosition[1]);
 
               if (direction > 0) {
