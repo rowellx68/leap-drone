@@ -68,6 +68,31 @@ let takeOffLanding = (gesture, drone) => {
   }
 };
 
+let getHorizontalMovement = (lastHandDirectionX, handDirectionX) => {
+  let horizontalMove = lastHandDirectionX - handDirectionX;
+
+  return Math.abs(horizontalMove);
+};
+
+let getVerticalMovement = (lastPalmPositionY, handPalmPositionY) => {
+  let verticalMove = handPalmPositionY - lastPalmPositionY;
+
+  return Math.abs(verticalMove);
+};
+
+let getDirection = (valueA, valueB) => {
+  let directionalValue = valueA - valueB;
+  let direction = 0;
+
+  if (directionalValue > 0) {
+    direction = 1;
+  } else {
+    direction = -1;
+  }
+
+  return direction;
+};
+
 let handData = (frameRef, palmY, thumbY, middleFingerY, pinkyY) => {
   console.log(`${frameRef} { PALM: ${palmY}, THUMB: ${thumbY}, MIDDLE: ${middleFingerY}, PINKY: ${pinkyY} }`);
 };
