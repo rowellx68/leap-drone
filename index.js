@@ -89,9 +89,11 @@ Cylon.robot()
           let lastHand = framePrevious.hands[0];
 
           if (hand && lastHand) {
-            handData('PREV:', lastHand.palmPosition[1], lastHand.thumb.tipPosition[1], lastHand.middleFinger.tipPosition[1], lastHand.pinky.tipPosition[1]);
-            handData('NOW: ', hand.palmPosition[1], hand.thumb.tipPosition[1], hand.middleFinger.tipPosition[1], hand.pinky.tipPosition[1]);
-            console.log(' ');
+            let horizontalMovement = getHorizontalMovement(lastHand.direction[0], hand.direction[0]);
+            let verticalMovement = getVerticalMovement(lastHand.palmPosition[1], hand.palmPosition[1]);
+
+            console.log(`HORIZONTAL: ${horizontalMovement}`);
+            console.log(`VERTICAL:   ${verticalMovement}`);
           }
         }
       });
