@@ -120,6 +120,22 @@ Cylon.robot()
                 console.log('Going Down');
               }
             }
+            
+            if (thumbVerticalMovement >= DIRECTION_THRESHOLD) {
+              let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+
+              if (direction < 0) {
+                console.log('Going Left');
+              }
+            }
+
+            if (pinkyVerticalMovement >= DIRECTION_THRESHOLD) {
+              let direction = getDirection(lastHand.pinky.tipPosition[1], hand.pinky.tipPosition[1]);
+
+              if (direction > 0) {
+                console.log('Going Right');
+              }
+            }
           }
         }
       });
