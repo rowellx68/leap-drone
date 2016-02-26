@@ -94,10 +94,6 @@ let getDirection = (valueA, valueB) => {
   return direction;
 };
 
-let handData = (frameRef, palmY, thumbY, middleFingerY, pinkyY) => {
-  console.log(`${frameRef} { PALM: ${palmY}, THUMB: ${thumbY}, MIDDLE: ${middleFingerY}, PINKY: ${pinkyY} }`);
-};
-
 Cylon.robot()
     .connection(LEAP_MOTION, { adaptor: LEAP_MOTION })
     .device(LEAP_MOTION, { driver: LEAP_MOTION })
