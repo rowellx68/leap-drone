@@ -69,12 +69,6 @@ let takeOffLanding = (gesture, drone) => {
   }
 };
 
-let getHorizontalMovement = (lastHandDirectionX, handDirectionX) => {
-  let horizontalMove = lastHandDirectionX - handDirectionX;
-
-  return Math.abs(horizontalMove);
-};
-
 let getVerticalMovement = (lastPalmPositionY, handPalmPositionY) => {
   let verticalMove = handPalmPositionY - lastPalmPositionY;
 
