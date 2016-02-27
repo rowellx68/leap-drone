@@ -8,7 +8,10 @@ Group project for Programming Things. Using gestures on Leap Motion, we aim to c
 
 - [x] Get Leap Motion to work
 - [x] Try out [Cylon](https://github.com/hybridgroup/cylon/) with Leap Motion
-- [ ] Recognise some gestures
+- [x] Recognise some gestures
+- [x] Get previous frame
+- [x] Get palm data
+- [x] Get fingers data
 
 ## Members
 
