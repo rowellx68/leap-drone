@@ -109,41 +109,37 @@ Cylon.robot()
             let verticalMovement = getVerticalMovement(lastHand.palmPosition[1], hand.palmPosition[1]);
             let thumbVerticalMovement = getVerticalMovement(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
             let middleFingerVerticalMovement = getVerticalMovement(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
-            let pinkyVerticalMovement = getVerticalMovement(lastHand.pinky.tipPosition[1], hand.pinky.tipPosition[1]);
 
             if (verticalMovement >= UP_DOWN_DIRECTION_THRESHOLD) {
               let direction = getDirection(hand.palmPosition[1], lastHand.palmPosition[1]);
+              let movement = Math.round(verticalMovement);
 
               if (direction > 0) {
-                console.log('Going Up');
+                console.log(`Going Up ${movement}`);
               } else if (direction < 0) {
-                console.log('Going Down');
+                console.log(`Going Down ${movement}`);
               }
             }
             
             if (thumbVerticalMovement >= DIRECTION_THRESHOLD) {
               let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
-
-              if (direction < 0) {
-                console.log('Going Left');
-              }
-            }
-
-            if (pinkyVerticalMovement >= DIRECTION_THRESHOLD) {
-              let direction = getDirection(lastHand.pinky.tipPosition[1], hand.pinky.tipPosition[1]);
+              let movement = Math.round(thumbVerticalMovement);
 
               if (direction > 0) {
-                console.log('Going Right');
+                console.log(`Going Right ${movement}`);
+              } else if (direction < 0) {
+                console.log(`Going Left ${movement}`);
               }
             }
 
             if (middleFingerVerticalMovement >= DIRECTION_THRESHOLD) {
               let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+              let movement = Math.round(middleFingerVerticalMovement);
 
               if (direction > 0) {
-                console.log('Go Forward');
+                console.log(`Go Forward ${movement}`);
               } else if (direction < 0) {
-                console.log('Go Backward');
+                console.log(`Go Backward ${movement}`);
               }
             }
           }
