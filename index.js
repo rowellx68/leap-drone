@@ -136,6 +136,16 @@ Cylon.robot()
                 console.log('Going Right');
               }
             }
+
+            if (middleFingerVerticalMovement >= DIRECTION_THRESHOLD) {
+              let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+
+              if (direction > 0) {
+                console.log('Go Forward');
+              } else if (direction < 0) {
+                console.log('Go Backward');
+              }
+            }
           }
         }
       });
