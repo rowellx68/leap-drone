@@ -6,6 +6,8 @@ const _ = require('underscore');
 const LEAP_MOTION = 'leapmotion';
 const MIN_RADIUS = 40.0;
 const MIN_FINGERS = 5;
+const UP_DOWN_DIRECTION_THRESHOLD = 2;
+const DIRECTION_THRESHOLD = 3;
 
 // states
 const TAKE_OFF = 'TAKE_OFF';
@@ -68,8 +70,23 @@ let takeOffLanding = (gesture, drone) => {
   }
 };
 
-let handData = (frameRef, palmY, thumbY, middleFingerY, pinkyY) => {
-  console.log(`${frameRef} { PALM: ${palmY}, THUMB: ${thumbY}, MIDDLE: ${middleFingerY}, PINKY: ${pinkyY} }`);
+let getVerticalMovement = (lastPalmPositionY, handPalmPositionY) => {
+  let verticalMove = handPalmPositionY - lastPalmPositionY;
+
+  return Math.abs(verticalMove);
+};
+
+let getDirection = (valueA, valueB) => {
+  let directionalValue = valueA - valueB;
+  let direction = 0;
+
+  if (directionalValue > 0) {
+    direction = 1;
+  } else {
+    direction = -1;
+  }
+
+  return direction;
 };
 
 Cylon.robot()
@@ -89,9 +106,42 @@ Cylon.robot()
           let lastHand = framePrevious.hands[0];
 
           if (hand && lastHand) {
-            handData('PREV:', lastHand.palmPosition[1], lastHand.thumb.tipPosition[1], lastHand.middleFinger.tipPosition[1], lastHand.pinky.tipPosition[1]);
-            handData('NOW: ', hand.palmPosition[1], hand.thumb.tipPosition[1], hand.middleFinger.tipPosition[1], hand.pinky.tipPosition[1]);
-            console.log(' ');
+            let palmVerticalMovement = getVerticalMovement(lastHand.palmPosition[1], hand.palmPosition[1]);
+            let thumbVerticalMovement = getVerticalMovement(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
+            let middleFingerVerticalMovement = getVerticalMovement(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+
+            if (palmVerticalMovement >= UP_DOWN_DIRECTION_THRESHOLD) {
+              let direction = getDirection(hand.palmPosition[1], lastHand.palmPosition[1]);
+              let movement = Math.round(palmVerticalMovement);
+
+              if (direction > 0) {
+                console.log(`Going Up ${movement}`);
+              } else if (direction < 0) {
+                console.log(`Going Down ${movement}`);
+              }
+            } else {
+              if (thumbVerticalMovement >= DIRECTION_THRESHOLD) {
+                let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+                let movement = Math.round(thumbVerticalMovement);
+
+                if (direction > 0) {
+                  console.log(`Going Right ${movement}`);
+                } else if (direction < 0) {
+                  console.log(`Going Left ${movement}`);
+                }
+              }
+
+              if (middleFingerVerticalMovement >= DIRECTION_THRESHOLD) {
+                let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+                let movement = Math.round(middleFingerVerticalMovement);
+
+                if (direction > 0) {
+                  console.log(`Go Forward ${movement}`);
+                } else if (direction < 0) {
+                  console.log(`Go Backward ${movement}`);
+                }
+              }
+            }
           }
         }
       });
