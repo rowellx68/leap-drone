@@ -103,6 +103,9 @@ Cylon.robot({
     drone: { driver: AR_DRONE, connection: AR_DRONE }
   },
   work: function (bot) {
+    bot.drone.config('control:altitude_max', 3000);
+    bot.drone.config('control:altitude_min', 100);
+    
     bot.leapmotion.on('frame', (frame) => {
       framePrevious = frame.controller.frame(1);
       frameCurrent = frame.controller.frame(0);
