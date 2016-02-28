@@ -58,16 +58,17 @@ let takeOffLanding = (gesture, drone) => {
 
         if (_.isEqual(oldLastState, lastState)) {
           console.log('taking off');
-          lastState = FLYING;
+
+          drone.takeoff(() => {
+            lastState = FLYING;
+          });
         }
       } else if (gesture.normal[2] > 0) {
-        let oldLastState = lastState;
-        lastState = LAND;
+        console.log('landing');
 
-        if (_.isEqual(oldLastState, lastState)) {
-          console.log('landing');
+        drone.land(() => {
           lastState = LANDED;
-        }
+        });
       }
     }
   }
@@ -105,7 +106,7 @@ Cylon.robot({
   work: function (bot) {
     bot.drone.config('control:altitude_max', 3000);
     bot.drone.config('control:altitude_min', 100);
-    
+
     bot.leapmotion.on('frame', (frame) => {
       framePrevious = frame.controller.frame(1);
       frameCurrent = frame.controller.frame(0);
