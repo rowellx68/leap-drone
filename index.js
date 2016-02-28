@@ -134,7 +134,7 @@ Cylon.robot({
             }
           } else {
             if (thumbVerticalMovement >= DIRECTION_THRESHOLD) {
-              let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+              let direction = getDirection(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
               let movement = Math.round(thumbVerticalMovement);
 
               if (direction > 0) {
