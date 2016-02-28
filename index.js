@@ -9,6 +9,8 @@ const MIN_RADIUS = 40.0;
 const MIN_FINGERS = 5;
 const UP_DOWN_DIRECTION_THRESHOLD = 2;
 const DIRECTION_THRESHOLD = 3;
+const UP_DOWN_MOVEMENT_SPEED = 0.8;
+const MOVEMENT_SPEED = 0.4;
 
 // states
 const TAKE_OFF = 'TAKE_OFF';
@@ -21,7 +23,7 @@ const CIRCLE = 'circle';
 const KEY_TAP = 'keyTap';
 const SCREEN_TAP = 'screenTap';
 
-//
+// globals
 let lastState = '';
 let framePrevious = {};
 let frameCurrent = {};
@@ -71,8 +73,8 @@ let takeOffLanding = (gesture, drone) => {
   }
 };
 
-let getVerticalMovement = (lastPalmPositionY, handPalmPositionY) => {
-  let verticalMove = handPalmPositionY - lastPalmPositionY;
+let getVerticalMovement = (lastPositionY, handPositionY) => {
+  let verticalMove = handPositionY - lastPositionY;
 
   return Math.abs(verticalMove);
 };
