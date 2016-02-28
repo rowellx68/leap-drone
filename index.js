@@ -4,6 +4,7 @@ const Cylon = require('cylon');
 const _ = require('underscore');
 
 const LEAP_MOTION = 'leapmotion';
+const AR_DRONE = 'ardrone';
 const MIN_RADIUS = 40.0;
 const MIN_FINGERS = 5;
 const UP_DOWN_DIRECTION_THRESHOLD = 2;
@@ -92,10 +93,12 @@ let getDirection = (valueA, valueB) => {
 
 Cylon.robot({
   connections: {
-    leapmotion: { adaptor: LEAP_MOTION }
+    leapmotion: { adaptor: LEAP_MOTION },
+    ardrone: { adaptor: AR_DRONE, port: '192.168.1.1' }
   },
   devices: {
-    leapmotion: { driver: LEAP_MOTION, connection: LEAP_MOTION }
+    leapmotion: { driver: LEAP_MOTION, connection: LEAP_MOTION },
+    drone: { driver: AR_DRONE, connection: AR_DRONE }
   },
   work: function (bot) {
     bot.leapmotion.on('frame', (frame) => {
