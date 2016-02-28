@@ -113,7 +113,7 @@ Cylon.robot({
       let hand = frameCurrent.hands[0];
       let gesture = frameCurrent.gestures[0];
 
-      takeOffLanding(gesture, null);
+      takeOffLanding(gesture, bot.drone);
 
       if (hand && isHandOpened(hand.pointables) && _.isEqual(lastState, FLYING)) {
         let lastHand = framePrevious.hands[0];
@@ -156,6 +156,9 @@ Cylon.robot({
             }
           }
         }
+      } else {
+        // if the hand is closed or hand is not detected, the drone should not move
+        bot.drone.hover();
       }
     });
   }
