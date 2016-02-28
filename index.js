@@ -89,62 +89,66 @@ let getDirection = (valueA, valueB) => {
   return direction;
 };
 
-Cylon.robot()
-    .connection(LEAP_MOTION, { adaptor: LEAP_MOTION })
-    .device(LEAP_MOTION, { driver: LEAP_MOTION })
-    .on('ready', (bot) => {
-      bot.leapmotion.on('frame', (frame) => {
-        framePrevious = frame.controller.frame(1);
-        frameCurrent = frame.controller.frame(0);
 
-        let hand = frameCurrent.hands[0];
-        let gesture = frameCurrent.gestures[0];
-        
-        takeOffLanding(gesture, null);
+Cylon.robot({
+  connections: {
+    leapmotion: { adaptor: LEAP_MOTION }
+  },
+  devices: {
+    leapmotion: { driver: LEAP_MOTION, connection: LEAP_MOTION }
+  },
+  work: function (bot) {
+    bot.leapmotion.on('frame', (frame) => {
+      framePrevious = frame.controller.frame(1);
+      frameCurrent = frame.controller.frame(0);
 
-        if (hand && isHandOpened(hand.pointables) && _.isEqual(lastState, FLYING)) {
-          let lastHand = framePrevious.hands[0];
+      let hand = frameCurrent.hands[0];
+      let gesture = frameCurrent.gestures[0];
 
-          if (hand && lastHand) {
-            let palmVerticalMovement = getVerticalMovement(lastHand.palmPosition[1], hand.palmPosition[1]);
-            let thumbVerticalMovement = getVerticalMovement(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
-            let middleFingerVerticalMovement = getVerticalMovement(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+      takeOffLanding(gesture, null);
 
-            if (palmVerticalMovement >= UP_DOWN_DIRECTION_THRESHOLD) {
-              let direction = getDirection(hand.palmPosition[1], lastHand.palmPosition[1]);
-              let movement = Math.round(palmVerticalMovement);
+      if (hand && isHandOpened(hand.pointables) && _.isEqual(lastState, FLYING)) {
+        let lastHand = framePrevious.hands[0];
+
+        if (hand && lastHand) {
+          let palmVerticalMovement = getVerticalMovement(lastHand.palmPosition[1], hand.palmPosition[1]);
+          let thumbVerticalMovement = getVerticalMovement(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
+          let middleFingerVerticalMovement = getVerticalMovement(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+
+          if (palmVerticalMovement >= UP_DOWN_DIRECTION_THRESHOLD) {
+            let direction = getDirection(hand.palmPosition[1], lastHand.palmPosition[1]);
+            let movement = Math.round(palmVerticalMovement);
+
+            if (direction > 0) {
+              console.log(`Going Up ${movement}`);
+            } else if (direction < 0) {
+              console.log(`Going Down ${movement}`);
+            }
+          } else {
+            if (thumbVerticalMovement >= DIRECTION_THRESHOLD) {
+              let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+              let movement = Math.round(thumbVerticalMovement);
 
               if (direction > 0) {
-                console.log(`Going Up ${movement}`);
+                console.log(`Going Right ${movement}`);
               } else if (direction < 0) {
-                console.log(`Going Down ${movement}`);
+                console.log(`Going Left ${movement}`);
               }
-            } else {
-              if (thumbVerticalMovement >= DIRECTION_THRESHOLD) {
-                let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
-                let movement = Math.round(thumbVerticalMovement);
+            }
 
-                if (direction > 0) {
-                  console.log(`Going Right ${movement}`);
-                } else if (direction < 0) {
-                  console.log(`Going Left ${movement}`);
-                }
-              }
+            if (middleFingerVerticalMovement >= DIRECTION_THRESHOLD) {
+              let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
+              let movement = Math.round(middleFingerVerticalMovement);
 
-              if (middleFingerVerticalMovement >= DIRECTION_THRESHOLD) {
-                let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
-                let movement = Math.round(middleFingerVerticalMovement);
-
-                if (direction > 0) {
-                  console.log(`Go Forward ${movement}`);
-                } else if (direction < 0) {
-                  console.log(`Go Backward ${movement}`);
-                }
+              if (direction > 0) {
+                console.log(`Go Forward ${movement}`);
+              } else if (direction < 0) {
+                console.log(`Go Backward ${movement}`);
               }
             }
           }
         }
-      });
+      }
     });
-
-Cylon.start();
+  }
+}).start();
