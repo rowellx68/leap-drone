@@ -99,12 +99,10 @@ let getVerticalMovement = (lastPositionY, newPositionY) => {
 
 let getDirection = (valueA, valueB) => {
   let directionalValue = valueA - valueB;
-  let direction = 0;
+  let direction = -1;
 
   if (directionalValue > 0) {
     direction = 1;
-  } else {
-    direction = -1;
   }
 
   return direction;
