@@ -51,6 +51,7 @@ let takeOffLanding = (gesture, drone) => {
 
     if (_.isEqual(type, CIRCLE) && stopped && radius >= MIN_RADIUS) {
       if (gesture.normal[2] < 0) {
+      if (gesture.normal[2] < 0 && (_.isEqual(lastState, LANDED) || _.isEqual(lastState, TAKE_OFF))) {
         let oldLastState = lastState;
         lastState = TAKE_OFF;
 
