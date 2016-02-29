@@ -116,7 +116,8 @@ Cylon.robot({
   },
   devices: {
     leapmotion: { driver: LEAP_MOTION, connection: LEAP_MOTION },
-    drone: { driver: AR_DRONE, connection: AR_DRONE }
+    drone: { driver: AR_DRONE, connection: AR_DRONE },
+    nav: { driver: 'ardrone-nav', connection: AR_DRONE  }
   },
   work: function (bot) {
     /**
@@ -126,6 +127,7 @@ Cylon.robot({
      */
     bot.drone.config('control:altitude_max', 3000);
     bot.drone.config('control:altitude_min', 100);
+    bot.drone.config('general:navdata_demo', 'TRUE');
 
     /**
      * cylon-leapmotion offers a few events that we can subscribe to.
