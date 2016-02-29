@@ -167,13 +167,13 @@ Cylon.robot({
               let direction = getDirection(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
 
               if (direction > 0) {
-                console.log(`STATE: Going Right. SPEED: ${MOVEMENT_SPEED}`);
-
-                bot.drone.right(MOVEMENT_SPEED);
-              } else if (direction < 0) {
                 console.log(`STATE: Going Left. SPEED: ${MOVEMENT_SPEED}`);
 
                 bot.drone.left(MOVEMENT_SPEED);
+              } else if (direction < 0) {
+                console.log(`STATE: Going Right. SPEED: ${MOVEMENT_SPEED}`);
+
+                bot.drone.right(MOVEMENT_SPEED);
               }
             }
 
