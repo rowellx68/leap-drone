@@ -22,7 +22,7 @@ const LANDED = 'LANDED';
 const CIRCLE = 'circle';
 
 // globals
-let lastState = '';
+let lastState = LANDED;
 let framePrevious = {};
 let frameCurrent = {};
 
