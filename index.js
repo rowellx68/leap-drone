@@ -102,6 +102,11 @@ Cylon.robot({
     drone: { driver: AR_DRONE, connection: AR_DRONE }
   },
   work: function (bot) {
+    /**
+     * We set min and max altitude so we don't got too low/high.
+     * When testing the drone, it was apparent that having no max limit could
+     * have caused some issues.
+     */
     bot.drone.config('control:altitude_max', 3000);
     bot.drone.config('control:altitude_min', 100);
 
@@ -165,7 +170,12 @@ Cylon.robot({
           }
         }
       } else {
-        // if the hand is closed or hand is not detected, the drone should not move
+        /**
+         * When no hand is detected or when the hand is closed,
+         * the drone should hover in place.
+         * This has proven useful when you wan't the drone to stop
+         * moving, you will only need to close the hand.
+         */
         bot.drone.hover();
       }
     });
