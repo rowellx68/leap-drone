@@ -20,8 +20,6 @@ const LANDED = 'LANDED';
 
 // gestures
 const CIRCLE = 'circle';
-const KEY_TAP = 'keyTap';
-const SCREEN_TAP = 'screenTap';
 
 // globals
 let lastState = '';
