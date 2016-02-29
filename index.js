@@ -42,6 +42,18 @@ let isHandOpened = (pointables) => {
   return (countFingers(pointables) >= MIN_FINGERS);
 };
 
+/**
+ * This method deals with the taking off and the landing
+ * of the drone.
+ *
+ * To take off, we will need to gesture a clockwise
+ * circle twice.
+ *
+ * Landing will only need one counter clockwise circle
+ * gesture. It was apparent at testing that landing must
+ * be as easy as possible, otherwise the drone could
+ * fly far away.
+ */
 let takeOffLanding = (gesture, drone) => {
   if (gesture) {
     let type = gesture.type;
@@ -49,8 +61,14 @@ let takeOffLanding = (gesture, drone) => {
     let radius = gesture.radius;
     let stopped = _.isEqual(state, 'stop');
 
+    /**
+     * We check the gesture type, the gesture state and the radius
+     * before proceeding.
+     *
+     * Radius was needed so we don't accidentally pick up smaller
+     * circle gestures.
+     */
     if (_.isEqual(type, CIRCLE) && stopped && radius >= MIN_RADIUS) {
-      if (gesture.normal[2] < 0) {
       if (gesture.normal[2] < 0 && (_.isEqual(lastState, LANDED) || _.isEqual(lastState, TAKE_OFF))) {
         let oldLastState = lastState;
         lastState = TAKE_OFF;
@@ -111,6 +129,12 @@ Cylon.robot({
     bot.drone.config('control:altitude_max', 3000);
     bot.drone.config('control:altitude_min', 100);
 
+    /**
+     * cylon-leapmotion offers a few events that we can subscribe to.
+     * Using the `frame` event allows us access to the previous frame,
+     * therefore we are able to deduce how much movement was made by
+     * the hand.
+     */
     bot.leapmotion.on('frame', (frame) => {
       framePrevious = frame.controller.frame(1);
       frameCurrent = frame.controller.frame(0);
@@ -174,6 +198,7 @@ Cylon.robot({
         /**
          * When no hand is detected or when the hand is closed,
          * the drone should hover in place.
+         *
          * This has proven useful when you wan't the drone to stop
          * moving, you will only need to close the hand.
          */
