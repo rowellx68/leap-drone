@@ -15,11 +15,16 @@
     "gesture"
   ],
   "author": "Rowell Heria",
-  "constributors": [ "Elizabeth Athanasiadi", "Kyle Bingham", "Daniel Haswell" ],
+  "constributors": [
+    "Elizabeth Athanasiadi",
+    "Kyle Bingham",
+    "Daniel Haswell"
+  ],
   "license": "MIT",
   "dependencies": {
     "cylon": "^1.2.0",
     "cylon-leapmotion": "^0.20.0",
+    "cylon-opencv": "^0.15.0",
     "underscore": "^1.8.3"
   }
 }
