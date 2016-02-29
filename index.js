@@ -70,6 +70,13 @@ let takeOffLanding = (gesture, drone) => {
      */
     if (_.isEqual(type, CIRCLE) && stopped && radius >= MIN_RADIUS) {
       if (gesture.normal[2] < 0 && (_.isEqual(lastState, LANDED) || _.isEqual(lastState, TAKE_OFF))) {
+        /**
+         * Taking off requires two circular gestures.
+         *
+         * This allows us to insure that we intended to start the drone.
+         * We do this by checking the lastState and see if it's the same
+         * as the current state.
+         */
         let oldLastState = lastState;
         lastState = TAKE_OFF;
 
@@ -81,6 +88,13 @@ let takeOffLanding = (gesture, drone) => {
           });
         }
       } else if (gesture.normal[2] > 0) {
+        /**
+         * Landing the drone only requires one counter clockwise gesture.
+         *
+         * Upon testing, it showed that it was more ideal to land the drone
+         * using a very simple gesture, just in case we really need to land
+         * the drone.
+         */
         console.log('STATE: Landing');
 
         drone.land(() => {
