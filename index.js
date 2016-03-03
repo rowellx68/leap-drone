@@ -21,6 +21,11 @@ const LANDED = 'LANDED';
 
 // gestures
 const CIRCLE = 'circle';
+const KEY_TAP = 'keyTap';
+
+// hand types
+const HAND_RIGHT = 'right';
+const HAND_LEFT = 'left';
 
 // globals
 let lastState = LANDED;
@@ -235,8 +240,15 @@ Cylon.robot({
 
       if (hand && isHandOpened(hand.pointables) && _.isEqual(lastState, FLYING)) {
         let lastHand = framePrevious.hands[0];
+        let handType = hand.type;
+        let lastHandType = lastHand.type;
 
-        if (hand && lastHand) {
+        /**
+         * Before we move the drone, we will need to check if hand
+         * and lastHand are not null/undefined.
+         * We also check if both hands are of the same type
+         */
+        if (hand && lastHand && (_.isEqual(handType, lastHandType))) {
           let palmVerticalMovement = getVerticalMovement(lastHand.palmPosition[1], hand.palmPosition[1]);
           let thumbVerticalMovement = getVerticalMovement(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
           let middleFingerVerticalMovement = getVerticalMovement(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
@@ -248,6 +260,14 @@ Cylon.robot({
           } else {
             if (thumbVerticalMovement >= DIRECTION_THRESHOLD) {
               let direction = getDirection(hand.thumb.tipPosition[1], lastHand.thumb.tipPosition[1]);
+
+              /**
+               * If the handType is left, we should swap the
+               * direction the drone should be going.
+               */
+              if (_.isEqual(handType, HAND_LEFT)) {
+                direction = -direction;
+              }
 
               droneMovementLeftRight(direction, bot.drone);
             }
