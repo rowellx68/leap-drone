@@ -40,7 +40,16 @@ npm run start:nm
 
 ## How To
 
-- Take Off - gesture circle clockwise
+To start controlling the drone, you will need to connect your computer to the AR.Drone's wifi. You will then need to start Cylon by typing the script below.
+
+```
+npm start
+```
+
+- Take Off - gesture circle clockwise twice
 - Land - gesture circle counter clockwise
+
+To control the drone's movement, you will need to control the drone with your hand. This can be done by tilting your open hand.
+Tilting yout hand left/right will move the drone left/right; tilting your hand forward/backward will moe the drone forward/backward; moving the hand up/down will moe the drone up/down.
 
 Details about gestures can be found [here](https://developer.leapmotion.com/documentation/javascript/devguide/Leap_Gestures.html).

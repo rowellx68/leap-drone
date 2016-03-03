@@ -9,8 +9,8 @@ const MIN_RADIUS = 40.0;
 const MIN_FINGERS = 5;
 const UP_DOWN_DIRECTION_THRESHOLD = 2;
 const DIRECTION_THRESHOLD = 3;
-const UP_DOWN_MOVEMENT_SPEED = 0.5;
-const MOVEMENT_SPEED = 0.3;
+const UP_DOWN_MOVEMENT_SPEED = 0.2;
+const MOVEMENT_SPEED = 0.2;
 
 // states
 const TAKE_OFF = 'TAKE_OFF';
@@ -85,6 +85,7 @@ let takeOffLanding = (gesture, drone) => {
 
           drone.takeoff(() => {
             lastState = FLYING;
+            console.log('STATE: Flying');
           });
         }
       } else if (gesture.normal[2] > 0) {
@@ -99,18 +100,31 @@ let takeOffLanding = (gesture, drone) => {
 
         drone.land(() => {
           lastState = LANDED;
+          console.log('STATE: Landed');
         });
       }
     }
   }
 };
 
+/**
+ * Returns the vertical movement.
+ * @param lastPositionY
+ * @param newPositionY
+ * @returns {number}
+ */
 let getVerticalMovement = (lastPositionY, newPositionY) => {
   let verticalMove = newPositionY - lastPositionY;
 
   return Math.abs(verticalMove);
 };
 
+/**
+ * Returns the direction based on the differences of values.
+ * @param valueA
+ * @param valueB
+ * @returns {number}
+ */
 let getDirection = (valueA, valueB) => {
   let directionalValue = valueA - valueB;
   let direction = -1;
@@ -122,6 +136,56 @@ let getDirection = (valueA, valueB) => {
   return direction;
 };
 
+/**
+ * Deals with the drone's up/down movement.
+ * @param direction
+ * @param drone
+ */
+let droneMovementUpDown = (direction, drone) => {
+  if (direction > 0) {
+    console.log(`STATE: Going Up. SPEED: ${UP_DOWN_MOVEMENT_SPEED}`);
+
+    drone.up(UP_DOWN_MOVEMENT_SPEED);
+  } else if (direction < 0) {
+    console.log(`STATE: Going Down. SPEED: ${UP_DOWN_MOVEMENT_SPEED}`);
+
+    drone.down(UP_DOWN_MOVEMENT_SPEED);
+  }
+};
+
+/**
+ * Deals with the drone's left/right movement.
+ * @param direction
+ * @param drone
+ */
+let droneMovementLeftRight = (direction, drone) => {
+  if (direction > 0) {
+    console.log(`STATE: Going Right. SPEED: ${MOVEMENT_SPEED}`);
+
+    drone.left(MOVEMENT_SPEED);
+  } else if (direction < 0) {
+    console.log(`STATE: Going Left. SPEED: ${MOVEMENT_SPEED}`);
+
+    drone.right(MOVEMENT_SPEED);
+  }
+};
+
+/**
+ * Deals with the drone's front/back movement.
+ * @param direction
+ * @param drone
+ */
+let droneMovementFrontBack = (direction, drone) => {
+  if (direction > 0) {
+    console.log(`STATE: Going Forward. SPEED: ${MOVEMENT_SPEED}`);
+
+    drone.front(MOVEMENT_SPEED);
+  } else if (direction < 0) {
+    console.log(`STATE: Going Backward. SPEED: ${MOVEMENT_SPEED}`);
+
+    drone.back(MOVEMENT_SPEED);
+  }
+};
 
 Cylon.robot({
   connections: {
@@ -139,7 +203,7 @@ Cylon.robot({
      * When testing the drone, it was apparent that having no max limit could
      * have caused some issues.
      */
-    bot.drone.config('control:altitude_max', 3000);
+    bot.drone.config('control:altitude_max', 2000);
     bot.drone.config('control:altitude_min', 100);
     bot.drone.config('general:navdata_demo', 'TRUE');
 
@@ -169,42 +233,18 @@ Cylon.robot({
           if (palmVerticalMovement >= UP_DOWN_DIRECTION_THRESHOLD) {
             let direction = getDirection(hand.palmPosition[1], lastHand.palmPosition[1]);
 
-            if (direction > 0) {
-              console.log(`STATE: Going Up. SPEED: ${UP_DOWN_MOVEMENT_SPEED}`);
-
-              bot.drone.up(UP_DOWN_MOVEMENT_SPEED);
-            } else if (direction < 0) {
-              console.log(`STATE: Going Down. SPEED: ${UP_DOWN_MOVEMENT_SPEED}`);
-
-              bot.drone.down(UP_DOWN_MOVEMENT_SPEED);
-            }
+            droneMovementUpDown(direction, bot.drone);
           } else {
             if (thumbVerticalMovement >= DIRECTION_THRESHOLD) {
-              let direction = getDirection(lastHand.thumb.tipPosition[1], hand.thumb.tipPosition[1]);
+              let direction = getDirection(hand.thumb.tipPosition[1], lastHand.thumb.tipPosition[1]);
 
-              if (direction > 0) {
-                console.log(`STATE: Going Left. SPEED: ${MOVEMENT_SPEED}`);
-
-                bot.drone.left(MOVEMENT_SPEED);
-              } else if (direction < 0) {
-                console.log(`STATE: Going Right. SPEED: ${MOVEMENT_SPEED}`);
-
-                bot.drone.right(MOVEMENT_SPEED);
-              }
+              droneMovementLeftRight(direction, bot.drone);
             }
 
             if (middleFingerVerticalMovement >= DIRECTION_THRESHOLD) {
               let direction = getDirection(lastHand.middleFinger.tipPosition[1], hand.middleFinger.tipPosition[1]);
 
-              if (direction > 0) {
-                console.log(`STATE: Going Forward. SPEED: ${MOVEMENT_SPEED}`);
-
-                bot.drone.front(MOVEMENT_SPEED);
-              } else if (direction < 0) {
-                console.log(`STATE: Going Backward. SPEED: ${MOVEMENT_SPEED}`);
-
-                bot.drone.back(MOVEMENT_SPEED);
-              }
+              droneMovementFrontBack(direction, bot.drone);
             }
           }
         }
