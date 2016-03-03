@@ -5,6 +5,7 @@ const _ = require('underscore');
 
 const LEAP_MOTION = 'leapmotion';
 const AR_DRONE = 'ardrone';
+const AR_DRONE_NAV = 'ardrone-nav';
 const MIN_RADIUS = 40.0;
 const MIN_FINGERS = 5;
 const UP_DOWN_DIRECTION_THRESHOLD = 2;
@@ -195,7 +196,7 @@ Cylon.robot({
   devices: {
     leapmotion: { driver: LEAP_MOTION, connection: LEAP_MOTION },
     drone: { driver: AR_DRONE, connection: AR_DRONE },
-    nav: { driver: 'ardrone-nav', connection: AR_DRONE  }
+    nav: { driver: AR_DRONE_NAV, connection: AR_DRONE  }
   },
   work: function (bot) {
     /**
