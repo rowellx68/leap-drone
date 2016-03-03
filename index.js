@@ -27,7 +27,12 @@ let lastState = LANDED;
 let framePrevious = {};
 let frameCurrent = {};
 
-let countFingers = (pointables) => {
+/**
+ * Counts the number of extended fingers.
+ * @param pointables
+ * @returns {number}
+ */
+const countFingers = (pointables) => {
   let openFingers = 0;
 
   _.each(pointables, (pointable) => {
@@ -39,7 +44,12 @@ let countFingers = (pointables) => {
   return openFingers;
 };
 
-let isHandOpened = (pointables) => {
+/**
+ * Checks if the hand is open.
+ * @param pointables
+ * @returns {boolean}
+ */
+const isHandOpened = (pointables) => {
   return (countFingers(pointables) >= MIN_FINGERS);
 };
 
@@ -55,7 +65,7 @@ let isHandOpened = (pointables) => {
  * be as easy as possible, otherwise the drone could
  * fly far away.
  */
-let takeOffLanding = (gesture, drone) => {
+const takeOffLanding = (gesture, drone) => {
   if (gesture) {
     let type = gesture.type;
     let state = gesture.state;
@@ -114,7 +124,7 @@ let takeOffLanding = (gesture, drone) => {
  * @param newPositionY
  * @returns {number}
  */
-let getVerticalMovement = (lastPositionY, newPositionY) => {
+const getVerticalMovement = (lastPositionY, newPositionY) => {
   let verticalMove = newPositionY - lastPositionY;
 
   return Math.abs(verticalMove);
@@ -126,7 +136,7 @@ let getVerticalMovement = (lastPositionY, newPositionY) => {
  * @param valueB
  * @returns {number}
  */
-let getDirection = (valueA, valueB) => {
+const getDirection = (valueA, valueB) => {
   let directionalValue = valueA - valueB;
   let direction = -1;
 
@@ -142,7 +152,7 @@ let getDirection = (valueA, valueB) => {
  * @param direction
  * @param drone
  */
-let droneMovementUpDown = (direction, drone) => {
+const droneMovementUpDown = (direction, drone) => {
   if (direction > 0) {
     console.log(`STATE: Going Up. SPEED: ${UP_DOWN_MOVEMENT_SPEED}`);
 
@@ -159,7 +169,7 @@ let droneMovementUpDown = (direction, drone) => {
  * @param direction
  * @param drone
  */
-let droneMovementLeftRight = (direction, drone) => {
+const droneMovementLeftRight = (direction, drone) => {
   if (direction > 0) {
     console.log(`STATE: Going Right. SPEED: ${MOVEMENT_SPEED}`);
 
@@ -176,7 +186,7 @@ let droneMovementLeftRight = (direction, drone) => {
  * @param direction
  * @param drone
  */
-let droneMovementFrontBack = (direction, drone) => {
+const droneMovementFrontBack = (direction, drone) => {
   if (direction > 0) {
     console.log(`STATE: Going Forward. SPEED: ${MOVEMENT_SPEED}`);
 
