@@ -26,6 +26,11 @@ let lastState = LANDED;
 let framePrevious = {};
 let frameCurrent = {};
 
+/**
+ * Counts the number of extended fingers.
+ * @param pointables
+ * @returns {number}
+ */
 let countFingers = (pointables) => {
   let openFingers = 0;
 
@@ -38,6 +43,11 @@ let countFingers = (pointables) => {
   return openFingers;
 };
 
+/**
+ * Checks if the hand is open.
+ * @param pointables
+ * @returns {boolean}
+ */
 let isHandOpened = (pointables) => {
   return (countFingers(pointables) >= MIN_FINGERS);
 };
