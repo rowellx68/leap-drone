@@ -177,11 +177,11 @@ const droneMovementLeftRight = (direction, drone) => {
   if (direction > 0) {
     console.log(`STATE: Going Right. SPEED: ${MOVEMENT_SPEED}`);
 
-    drone.left(MOVEMENT_SPEED);
+    drone.right(MOVEMENT_SPEED);
   } else if (direction < 0) {
     console.log(`STATE: Going Left. SPEED: ${MOVEMENT_SPEED}`);
 
-    drone.right(MOVEMENT_SPEED);
+    drone.left(MOVEMENT_SPEED);
   }
 };
 
