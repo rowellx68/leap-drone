@@ -238,7 +238,7 @@ Cylon.robot({
       if (hand && isHandOpened(hand.pointables) && _.isEqual(lastState, FLYING)) {
         let lastHand = framePrevious.hands[0];
         let handType = hand.type;
-        let lastHandType = lastHand.type;
+        let lastHandType = lastHand ? lastHand.type : null;
 
         /**
          * Before we move the drone, we will need to check if hand
